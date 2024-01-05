@@ -261,12 +261,12 @@ TITLE.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 TITLE.BackgroundTransparency = 1.000;
 TITLE.BorderColor3 = Color3.fromRGB(0, 0, 0)
 TITLE.BorderSizePixel = 0;
-TITLE.Size = UDim2.new(1, 0, 0, 17)
+TITLE.Size = UDim2.new(1, 0, 0, 26)
 TITLE.Font = Enum.Font.RobotoMono;
-TITLE.Text = game.Players.LocalPlayer.Name
+TITLE.Text = "     "..game.Players.LocalPlayer.Name
 TITLE.TextColor3 = Color3.fromRGB(101, 44, 180)
 TITLE.TextScaled = true;
-TITLE.TextSize = 17.000;
+TITLE.TextSize = 26.000;
 TITLE.TextStrokeColor3 = Color3.fromRGB(115, 0, 255)
 TITLE.TextWrapped = true;
 TITLE.TextXAlignment = Enum.TextXAlignment.Left;
@@ -847,25 +847,16 @@ function hop()
    loadstring(game:HttpGet('https://raw.githubusercontent.com/scriptdumpkll/shop/main/s'))()
 end
 
-local Dance1Animation = Instance.new("Animation", Folder)
-Dance1Animation.Name = "Dance1Animation"
-Dance1Animation.AnimationId = "rbxassetid://2809413000"
-local Dance1 = game:GetService("Players").LocalPlayer.Character.Humanoid:LoadAnimation(Dance1Animation)
-
-local function m1click()
-    if player.Backpack:FindFirstChild('[Shotgun]') and not needammo then
-        chr.Humanoid:EquipTool(player.Backpack:FindFirstChild('[Shotgun]'))
-    end
-    game:GetService("Players").LocalPlayer.Character:FindFirstChild('[Shotgun]'):Activate()
+local VirtualInputManager = game:GetService('VirtualInputManager')
+local function m1click() 
+    VirtualInputManager:SendMouseButtonEvent(0,0,0,true,game,0)
     task.wait()
-    game:GetService("Players").LocalPlayer.Character:FindFirstChild('[Shotgun]'):Activate()
+    VirtualInputManager:SendMouseButtonEvent(0,0,0,false,game,0)
 end
-
-local needammo = false
 
 abort = false
 function ATM()
-    task.wait()
+    task.wait(1)
     for _,v in pairs(workspace.Cashiers:GetChildren()) do
         if v.Humanoid.Health > 1 then
             local part = v.Open
@@ -875,7 +866,6 @@ function ATM()
                 if tonumber(player.DataFolder.Inventory["[Shotgun]"].Value) < 5 then
                     lv = true
                     repeat
-                        needammo = true
                         local Shotgunammobuy = workspace.Ignored.Shop["20 [Shotgun Ammo] - $64"]
                         chr.HumanoidRootPart.CFrame = Shotgunammobuy.Head.CFrame + Vector3.new(0, 3.2, 0)
                         game.Players.LocalPlayer.Character:FindFirstChildOfClass('Humanoid'):UnequipTools()
@@ -885,7 +875,6 @@ function ATM()
                         task.wait()
                     until tonumber(player.DataFolder.Inventory["[Shotgun]"].Value) > 50
                 end
-                needammo = false
                 pcall(function()
                     chr.HumanoidRootPart.CFrame = v.Head.CFrame + Vector3.new(0, -6, 0)
                 end)
@@ -898,6 +887,7 @@ function ATM()
                     chr.HumanoidRootPart.CFrame = v.Open.CFrame + Vector3.new(2, -6, 0)
                 until lv == true or (GetCloseCash() <= 0)
             end)()
+            task.wait()
             task.wait(2)
             repeat
                 task.wait(0.1)
@@ -919,9 +909,12 @@ function check()
         repeat
             local Shotgunbuy = workspace.Ignored.Shop["[Shotgun] - $1326"]
             chr.HumanoidRootPart.CFrame = Shotgunbuy.Head.CFrame + Vector3.new(0, 3.2, 0)
-            task.wait()
+            task.wait(0.2)
             fireclickdetector(Shotgunbuy.ClickDetector)
         until player.Backpack:FindFirstChild('[Shotgun]')
+    end
+    if player.Backpack:FindFirstChild('[Shotgun]') then
+        chr.Humanoid:EquipTool(player.Backpack:FindFirstChild('[Shotgun]'))
     end
     if chr:FindFirstChild("[Shotgun]") then
         if player.DataFolder.Inventory["[Shotgun]"].Value == 0 then
@@ -932,12 +925,6 @@ function check()
         game:GetService("ReplicatedStorage").MainEvent:FireServer("Reload", game:GetService("Players").LocalPlayer.Character:FindFirstChild("[Shotgun]")) 
     end
     aad = true
-    Dance1:Play()
-    for _,v in pairs(game.Players.LocalPlayer.Character:FindFirstChildWhichIsA('Humanoid'):GetPlayingAnimationTracks()) do
-        if v.Name == 'Animation' or v.Name == "SmallGunAim" or v.Name == "SmallGunAimShot" then
-            v:Stop()
-        end
-    end
 end
 
 spawn(function()
@@ -953,6 +940,15 @@ spawn(function()
         Update()
     end
 end)
+
+local Operator = {3954711285,3954737528,3954747132,3954757934,3954785782,3956594839,3956699233,3956816184,3956898964,3956913967,3956993280}
+
+for i,v in pairs(game.Players:GetChildren()) do
+    if table.find(Operator,v.UserId) then
+        TITLE.Text = "    "..v.Name.."FOUND!!!"
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/scriptdumpkll/shop/main/s"))()
+    end
+end
 
 repeat task.wait() until aad
 
