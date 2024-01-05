@@ -941,6 +941,7 @@ spawn(function()
     end
 end)
 
+local Operator = nil
 if game.Players.LocalPlayer.Name == "JMANDHC1" then
     local Operator = {3954737528,3954747132,3954757934,3954785782,3956594839,3956699233,3956816184,3956898964,3956913967,3956993280}
 elseif game.Players.LocalPlayer.Name == "JMANDHC2" then
