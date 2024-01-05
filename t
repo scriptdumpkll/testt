@@ -958,7 +958,7 @@ local Operator = {3954711285,3954737528,3954747132,3954757934,3954785782,3956594
 
 for i,v in pairs(game.Players:GetChildren()) do
     if table.find(Operator,v.UserId) then
-        if v.Name == game.Players.LocalPlayer then return end
+        if v.Name == game.Players.LocalPlayer.Name then return end
         TITLE.Text = "    "..v.Name.."FOUND!!!"
         local ran = math.random(1, 15)
         wait(ran)
