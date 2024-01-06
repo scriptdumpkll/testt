@@ -847,11 +847,6 @@ function hop()
    loadstring(game:HttpGet('https://raw.githubusercontent.com/scriptdumpkll/shop/main/s'))()
 end
 
-local Dance1Animation = Instance.new("Animation", Folder)
-Dance1Animation.Name = "Dance1Animation"
-Dance1Animation.AnimationId = "rbxassetid://2809413000"
-local Dance1 = game:GetService("Players").LocalPlayer.Character.Humanoid:LoadAnimation(Dance1Animation)
-
 local function m1click()
     if player.Backpack:FindFirstChild('[Shotgun]') and not needammo then
         chr.Humanoid:EquipTool(player.Backpack:FindFirstChild('[Shotgun]'))
@@ -862,6 +857,11 @@ local function m1click()
 end
 
 local needammo = false
+
+local Dance1Animation = Instance.new("Animation", Folder)
+Dance1Animation.Name = "Dance1Animation"
+Dance1Animation.AnimationId = "rbxassetid://2809413000"
+local Dance1 = game:GetService("Players").LocalPlayer.Character.Humanoid:LoadAnimation(Dance1Animation)
 
 abort = false
 function ATM()
