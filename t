@@ -776,7 +776,19 @@ local Update = function()
 	end
 end
 
-setfpscap(10)
+local fpsCap = 10
+local clock = tick()
+
+game:GetService("RunService").RenderStepped:Connect(function()
+	while clock + 1 / fpsCap > tick() do end
+	clock = tick()
+	
+	task.wait()
+end)
+
+local function SetFPS(FPS)
+    fpsCap = FPS
+end
 
 -- // Services
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
@@ -877,7 +889,8 @@ function ATM()
                     repeat
                         needammo = true
                         local Shotgunammobuy = workspace.Ignored.Shop["20 [Shotgun Ammo] - $64"]
-                        chr.HumanoidRootPart.CFrame = Shotgunammobuy.Head.CFrame + Vector3.new(0, 3.2, 0)
+                        local targetpos = CFrame.new(-578, 8, -747)
+                        chr.HumanoidRootPart.CFrame = targetpos + Vector3.new(0, -3.2, 0)
                         game.Players.LocalPlayer.Character:FindFirstChildOfClass('Humanoid'):UnequipTools()
                         fireclickdetector(Shotgunammobuy.ClickDetector)
                         fireclickdetector(Shotgunammobuy.ClickDetector)
@@ -895,10 +908,10 @@ function ATM()
             until v.Humanoid.Health < 2 or abort == true
             coroutine.wrap(function()
                 repeat task.wait()
-                    chr.HumanoidRootPart.CFrame = v.Open.CFrame + Vector3.new(2, -6, 0)
+                    chr.HumanoidRootPart.CFrame = v.Open.CFrame + Vector3.new(2, -7, 0)
                 until lv == true or (GetCloseCash() <= 0)
             end)()
-            task.wait(2)
+            task.wait(1)
             repeat
                 task.wait(0.1)
 				for i,v in pairs(workspace.Ignored.Drop:GetChildren()) do 
@@ -918,10 +931,15 @@ function check()
     if not player.Backpack:FindFirstChild('[Shotgun]') and not chr:FindFirstChild("[Shotgun]") then
         repeat
             local Shotgunbuy = workspace.Ignored.Shop["[Shotgun] - $1326"]
-            chr.HumanoidRootPart.CFrame = Shotgunbuy.Head.CFrame + Vector3.new(0, 3.2, 0)
+            local targetpos2 = CFrame.new(-579, 8, -725)
+            chr.HumanoidRootPart.CFrame = targetpos2 + Vector3.new(0, -3.2, 0)
             task.wait()
             fireclickdetector(Shotgunbuy.ClickDetector)
         until player.Backpack:FindFirstChild('[Shotgun]')
+    elseif player.Backpack:FindFirstChild('[Shotgun]') and chr:FindFirstChild("[Shotgun]") then
+        game:GetService("ReplicatedStorage").MainEvent:FireServer("Reload", game:GetService("Players").LocalPlayer.Character:FindFirstChild("[Shotgun]"))
+        wait(0.05) 
+        game:GetService("ReplicatedStorage").MainEvent:FireServer("Reload", game:GetService("Players").LocalPlayer.Character:FindFirstChild("[Shotgun]")) 
     end
     if chr:FindFirstChild("[Shotgun]") then
         if player.DataFolder.Inventory["[Shotgun]"].Value == 0 then
@@ -949,8 +967,8 @@ spawn(function()
 			wait(ran)
 			loadstring(game:HttpGet("https://raw.githubusercontent.com/scriptdumpkll/shop/main/s"))()
 		end
-        check()
         Update()
+        check()
     end
 end)
 
